@@ -116,7 +116,8 @@ CLASS zcl_aoc_check_45 IMPLEMENTATION.
           AND <ls_statement>-str CP 'TRANSLATE * USING *'.
         lv_code = '008'.
       ELSEIF mv_templates = abap_true
-          AND <ls_statement>-str CP 'CONCATENATE *'.
+          AND <ls_statement>-str CP 'CONCATENATE *'
+          AND NOT <ls_statement>-str CP '* RESPECTING BLANKS*'.
         lv_code = '009'.
       ELSEIF mv_ref = abap_true
           AND <ls_statement>-str CP 'GET REFERENCE OF *'
@@ -139,6 +140,7 @@ CLASS zcl_aoc_check_45 IMPLEMENTATION.
 
       IF NOT lv_code IS INITIAL.
         inform( p_sub_obj_name = <ls_statement>-include
+                p_position     = <ls_statement>-index
                 p_line         = <ls_statement>-start-row
                 p_kind         = mv_errty
                 p_test         = myname
@@ -212,6 +214,7 @@ CLASS zcl_aoc_check_45 IMPLEMENTATION.
     attributes_ok  = abap_true.
 
     enable_rfc( ).
+    enable_checksum( ).
 
     mv_lines           = abap_true.
     mv_new             = abap_true.
@@ -275,7 +278,7 @@ CLASS zcl_aoc_check_45 IMPLEMENTATION.
 
     insert_scimessage(
         iv_code = '013'
-        iv_text = 'Use corresponding #( base( source ) target )'(m13) ).
+        iv_text = 'Use corresponding #( base ( source ) target )'(m13) ).
 
   ENDMETHOD.
 
